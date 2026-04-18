@@ -28,71 +28,59 @@ def get_manifold_naca_pts(chord, m=0.02, p=0.4, t=0.09, offset=0, n_pts=N_PTS):
     return upper + lower
 
 def make_apex_surface(chord_r, chord_t, span, sweep_max, dihedral, washout, has_spar=True):
-    """V8 核心逻辑：非线性多截面放样，造就极致半椭圆流动曲线"""
+    """V8.2 极致平滑版：通过 12 段高频采样实现 Aerodynamic Liquid 流动感"""
     cr, ct, sp = chord_r * PRINT_SCALE, chord_t * PRINT_SCALE, span * PRINT_SCALE
     sw = sweep_max * PRINT_SCALE
-    sections = 6
+    sections = 12 # 从 6 提升至 12，显著平滑曲线
     wires = []
     
     for i in range(sections):
         ratio = i / (sections - 1)
-        
-        # 1. 半椭圆弦长衰减方程
         c_local = ct + (cr - ct) * math.sqrt(1 - ratio**2)
-        
-        # 2. 抛物线后掠曲线
-        s_local = sw * (ratio**1.6)
-        
-        # 3. 线性扭转分布
+        s_local = sw * (ratio**1.8) # 调整指数使后掠更平缓
         w_local = washout * ratio
-        
         z_pos = sp * ratio
         pts = get_manifold_naca_pts(c_local)
         w = cq.Workplane("XY").workplane(offset=z_pos).spline(pts).close()
-        
-        # 横滚轴（Washout）旋转，基于重心 25% 弦长处
         w = w.rotate((c_local*0.25, 0, z_pos), (c_local*0.25, 1, z_pos), w_local)
-        
-        # 上反角（Dihedral）带来的 Y 轴垂直爬升
         y_dih = math.tan(math.radians(dihedral)) * z_pos
         w = w.translate((s_local, y_dih, 0))
-        
         wires.append(w.toPending().objects[0])
         
     solid_surface = cq.Solid.makeLoft(wires, ruled=False)
+    # ... 其余逻辑保持不变
     final_wp = cq.Workplane(solid_surface)
-    
     if has_spar:
         spar_d = SPAR_DIA * PRINT_SCALE
-        spar = (
-            cq.Workplane("XY").workplane(offset=-2)
-            .center(cr*0.25, 0).circle(spar_d/2).extrude(sp*1.2)
-            # 主梁孔必须完美贴合几何上反角
-            .rotate((cr*0.25,0,0), (cr*0.25+1,0,0), dihedral)
-        )
+        spar = (cq.Workplane("XY").workplane(offset=-2).center(cr*0.25, 0).circle(spar_d/2).extrude(sp*1.2)
+                .rotate((cr*0.25,0,0), (cr*0.25+1,0,0), dihedral))
         final_wp = final_wp.cut(spar)
-        
     return final_wp.clean().val()
 
 # ==========================================
-# V8 总装
+# V8.2 总装升级
 # ==========================================
 parts = []
 fs = FUSE_LENGTH * PRINT_SCALE
 fw, fh = FUSE_WIDTH * PRINT_SCALE, FUSE_HEIGHT * PRINT_SCALE
 
-print("🛩️  Apex 构建：可乐瓶曲线机身 (Area Rule Fuselage)...")
+print("🛩️  Apex V8.2：执行曲面平滑重构...")
+# 更新机身重心权重分配，使可乐瓶曲线更加平缓
+FUSE_SECTIONS_V8_SMOOTH = [
+    (0.00,  0.1,  0.15,  0.0),    
+    (0.12,  0.75, 0.82, -0.05),   # 增加控制点使头部更圆润
+    (0.25,  0.95, 0.98, -0.15),   
+    (0.40,  1.0,  1.0,  -0.18),   
+    (0.55,  0.88, 0.92, -0.12),   # 面积律结合部更平滑的过渡
+    (0.75,  0.55, 0.65, -0.02),   
+    (0.92,  0.28, 0.38,  0.1),    
+    (1.00,  0.1,  0.1,   0.2)     
+]
+
 fuse_wires = []
-for x, wp, hp, z_drop in FUSE_SECTIONS_V8:
-    z_offset = z_drop * fh # Z轴下沉量，塑造座舱段凹凸有致
-    w = (
-        cq.Workplane("YZ").workplane(offset=x*fs)
-        .ellipse(fw*wp/2, fh*hp/2)
-        # 机身曲线重心偏移变换
-        .translate((0, z_offset, 0))
-        .toPending().objects[0]
-    )
-    fuse_wires.append(w)
+for x, wp, hp, z_drop in FUSE_SECTIONS_V8_SMOOTH:
+    z_offset = z_drop * fh
+    fuse_wires.append(cq.Workplane("YZ").workplane(offset=x*fs).ellipse(fw*wp/2, fh*hp/2).translate((0, z_offset, 0)).toPending().objects[0])
 solid_fuse = cq.Solid.makeLoft(fuse_wires, ruled=False)
 parts.append(solid_fuse)
 
