@@ -1,7 +1,7 @@
 <div align="center">
 
 # 🌊 APEX V8.2: Aerodynamic Liquid
-### 世界级全参数化航模生成系统
+### Apex: Parametric Aero-Modeling Toolbox
 
 [![View 3D Model](https://img.shields.io/badge/🕹️_ENTER_3D_VIEWER-INTERACTIVE-blue?style=for-the-badge&logo=bambulab)](https://github.com/George3215/3D_Print_Plane_Auto_Design/blob/main/assets/v8_apex_web_preview.stl)
 
@@ -12,6 +12,22 @@
 </div>
 
 ---
+
+## 🛠️ 设计流程 (Design Pipeline)
+
+```mermaid
+graph LR
+    A[<b>Aero-Config</b><br/>aircraft_config.py] --> B(<b>Geometry Engine</b><br/>aircraft_generator.py)
+    B --> C{<b>Solid Topology</b>}
+    C -->|Boolean Union| D[<b>STEP/STL Artifacts</b>]
+    D -->|3D Slicing| E[<b>Bambu Studio</b>]
+    E --> F((<b>Physical Plane</b>))
+    
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style D fill:#dfd,stroke:#333,stroke-width:2px
+    style F fill:#ffd,stroke:#333,stroke-width:2px
+```
 
 ## ✨ V8.2 深度平滑升级 (Smoothing Update)
 
