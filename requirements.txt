@@ -1,0 +1,4 @@
+cadquery>=2.4.0
+casadi>=3.6.4 # (Optional) used by CadQuery for some advanced optimizations
+nlopt>=2.7.1  # (Optional) CadQuery dependent
+oci>=2.128.0  # OpenCASCADE integration

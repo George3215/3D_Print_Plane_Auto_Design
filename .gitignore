@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+
+# 3D Auto Design Artifacts
+*.step
+*.stl
+design_parameters_report.txt
+
+# Environment
+.env
+venv/
+env/
+miniconda3/
