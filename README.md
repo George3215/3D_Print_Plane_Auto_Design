@@ -53,4 +53,27 @@ vim aircraft_config.py
 python aircraft_generator.py
 ```
 
+---
+
+## 🎨 设计图廊 (Design Gallery)
+
+> 以下是 Apex V8.2 项目的设计手稿与核心视角展示：
+
+<div align="center">
+<table border="0">
+  <tr>
+    <td align="center">
+      <img src="assets/1.png" width="400px" alt="Design Screenshot 1" style="border-radius: 10px; border: 1px solid #30363d; margin: 10px;">
+      <br><b>细节视图 A (Detail View A)</b>
+    </td>
+    <td align="center">
+      <img src="assets/2.png" width="400px" alt="Design Screenshot 2" style="border-radius: 10px; border: 1px solid #30363d; margin: 10px;">
+      <br><b>细节视图 B (Detail View B)</b>
+    </td>
+  </tr>
+</table>
+</div>
+
+---
+
 > *"致力于将每一微米的阻力化为无形。"*
