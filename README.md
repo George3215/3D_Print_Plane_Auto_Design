@@ -1,11 +1,13 @@
 <div align="center">
+  <img src="assets/blueprint.png" width="900" alt="Apex V8.2 Smoothed Blueprint">
+</div>
 
 # 🌊 APEX V8.2: Aerodynamic Liquid
 ### Apex: Parametric Aero-Modeling Toolbox
 
-[![View 3D Model](https://img.shields.io/badge/🕹️_ENTER_3D_VIEWER-INTERACTIVE-blue?style=for-the-badge&logo=bambulab)](https://github.com/George3215/3D_Print_Plane_Auto_Design/blob/main/assets/v8_apex_web_preview.stl)
+> **"仅需一句话，即可生成航模 3D 外观，节省 80% 的设计时间。"**
 
-<img src="assets/blueprint.png" width="900" alt="Apex V8.2 Smoothed Blueprint">
+[![View 3D Model](https://img.shields.io/badge/🕹️_ENTER_3D_VIEWER-INTERACTIVE-blue?style=for-the-badge&logo=bambulab)](https://github.com/George3215/3D_Print_Plane_Auto_Design/blob/main/assets/v8_apex_web_preview.stl)
 
 *极致平滑的多截面曲面插值，专为追求气动完美的 3D 打印航模玩家设计。*
 
