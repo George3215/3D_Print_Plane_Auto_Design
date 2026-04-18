@@ -25,10 +25,12 @@ graph LR
     D -->|3D Slicing| E[<b>Bambu Studio</b>]
     E --> F((<b>Physical Plane</b>))
     
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#bbf,stroke:#333,stroke-width:2px
-    style D fill:#dfd,stroke:#333,stroke-width:2px
-    style F fill:#ffd,stroke:#333,stroke-width:2px
+    style A fill:#001f3f,stroke:#0074D9,stroke-width:3px,color:#7FDBFF
+    style B fill:#111,stroke:#B10DC9,stroke-width:3px,color:#F012BE
+    style C fill:#001a1a,stroke:#39FF14,stroke-width:3px,color:#39FF14
+    style D fill:#111,stroke:#0074D9,stroke-width:3px,color:#7FDBFF
+    style E fill:#001f3f,stroke:#FF851B,stroke-width:3px,color:#FF851B
+    style F fill:#000,stroke:#FFD700,stroke-width:4px,color:#FFD700
 ```
 
 ## ✨ V8.2 深度平滑升级 (Smoothing Update)
